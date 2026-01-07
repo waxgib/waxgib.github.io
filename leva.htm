@@ -86,10 +86,10 @@
             for (let i = 0; i < asimax; i++) {
                 console.log('topup', i, asot, asor, asog, asob, asoy);
                 let asran = Math.floor(Math.random() * 4);
-                if (asran == 0) {asor+=1}
-                if (asran == 1) {asog+=1}
-                if (asran == 2) {asob+=1}
-                if (asran == 3) {asoy+=1}
+                if (asran == 0) {if (ashr == 0) {asor+=1} else {asot -= 1, i -= 1}}
+                if (asran == 1) {if (ashg == 0) {asog+=1} else {asot -= 1, i -= 1}}
+                if (asran == 2) {if (ashb == 0) {asob+=1} else {asot -= 1, i -= 1}}
+                if (asran == 3) {if (ashy == 0) {asoy+=1} else {asot -= 1, i -= 1}}
                 asot += 1
                 console.log('asran', i, asot, asor, asog, asob, asoy, asran);
             }
@@ -151,6 +151,7 @@
                     asgt += 1
                     topup()
                 }
+                if (ashr == 1 & ashg == 1 & ashb == 1 & ashy == 1) {ashr = 0, ashg = 0, ashb = 0, ashy = 0}
                 // victory?
                 //if (Math.min(asnr, asng) )
                 show()
