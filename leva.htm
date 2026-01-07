@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COLA</title>
+    <title>LEVELE</title>
     <style>
         html,body {
             height:100%;
@@ -38,6 +38,10 @@
         let asob = 0
         let asoy = 0
         let asot = 0
+        let ashr = 0
+        let ashg = 0
+        let ashb = 0
+        let ashy = 0
         reset()
         asgt += 1
         topup()
@@ -71,6 +75,10 @@
             asob = 0
             asoy = 0
             asot = 0
+            ashr = 0
+            ashg = 0
+            ashb = 0
+            ashy = 0
         }
         function topup() {
             asimax = 16 - asot
@@ -92,20 +100,32 @@
             aspg = asng + asog
             aspb = asnb + asob
             aspy = asny + asoy
+            ashtr = 'HOLD'
+            if (ashr == 1) {ashtr = 'held'}
+            ashtg = 'HOLD'
+            if (ashg == 1) {ashtg = 'held'}
+            ashtb = 'HOLD'
+            if (ashb == 1) {ashtb = 'held'}
+            ashty = 'HOLD'
+            if (ashy == 1) {ashty = 'held'}
             document.getElementById('taba').rows[0].cells[0].innerHTML = asgt;
             document.getElementById('taba').rows[0].cells[1].innerHTML = 'RESET';
             document.getElementById('taba').rows[1].cells[0].innerHTML = asnr;
             document.getElementById('taba').rows[1].cells[1].innerHTML = '+' + asor;
             document.getElementById('taba').rows[1].cells[2].innerHTML = '=' + aspr;
+            document.getElementById('taba').rows[1].cells[3].innerHTML = ashtr;
             document.getElementById('taba').rows[2].cells[0].innerHTML = asng;
             document.getElementById('taba').rows[2].cells[1].innerHTML = '+' + asog;
             document.getElementById('taba').rows[2].cells[2].innerHTML = '=' + aspg;
+            document.getElementById('taba').rows[2].cells[3].innerHTML = ashtg;
             document.getElementById('taba').rows[3].cells[0].innerHTML = asnb;
             document.getElementById('taba').rows[3].cells[1].innerHTML = '+' + asob;
             document.getElementById('taba').rows[3].cells[2].innerHTML = '=' + aspb;
+            document.getElementById('taba').rows[3].cells[3].innerHTML = ashtb;
             document.getElementById('taba').rows[4].cells[0].innerHTML = asny;
             document.getElementById('taba').rows[4].cells[1].innerHTML = '+' + asoy;
             document.getElementById('taba').rows[4].cells[2].innerHTML = '=' + aspy;
+            document.getElementById('taba').rows[4].cells[3].innerHTML = ashty;
         }
         document.querySelector('#taba')
             .addEventListener('click', (ev) => {
@@ -119,16 +139,22 @@
                 }
                 console.log('click', x, y);
                 if (y == 0 & x == 1) {reset()}
-                if (y == 1) {asnr += asor, asot -= asor, asor = 0}
-                if (y == 2) {asng += asog, asot -= asog, asog = 0}
-                if (y == 3) {asnb += asob, asot -= asob, asob = 0}
-                if (y == 4) {asny += asoy, asot -= asoy, asoy = 0}
+                if (y == 1 & x == 3) {if (ashr == 0) {ashr = 1} else {ashr = 0}}
+                if (y == 2 & x == 3) {if (ashg == 0) {ashg = 1} else {ashg = 0}}
+                if (y == 3 & x == 3) {if (ashb == 0) {ashb = 1} else {ashb = 0}}
+                if (y == 4 & x == 3) {if (ashy == 0) {ashy = 1} else {ashy = 0}}
+                if (y == 1 & x <= 2) {asnr += asor, asot -= asor, asor = 0}
+                if (y == 2 & x <= 2) {asng += asog, asot -= asog, asog = 0}
+                if (y == 3 & x <= 2) {asnb += asob, asot -= asob, asob = 0}
+                if (y == 4 & x <= 2) {asny += asoy, asot -= asoy, asoy = 0}
                 if (asot < 16) {
                     asgt += 1
                     topup()
                 }
+                // victory?
                 //if (Math.min(asnr, asng) )
                 show()
+                console.log(x, y, ashr, ashtr)
 
                 //console.log(x, y, asr, asg, asb);
             });
