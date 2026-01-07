@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COLA</title>
+    <style>
+        html,body {
+            height:100%;
+            background-color:white;
+        }
+        table {
+            border-collapse: collapse;
+            border: none;
+            font-family: verdana;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <table id="taba" width="100%" height="100%" onclick="hit()">
+        <tr><td colspan="3"</td><td>RESET</td></tr>
+        <tr><td>0</td><td>0</td><td>0</td><td>HOLD</td></tr>
+        <tr><td>0</td><td>0</td><td>0</td><td>HOLD</td></tr>
+        <tr><td>0</td><td>0</td><td>0</td><td>HOLD</td></tr>
+        <tr><td>0</td><td>0</td><td>0</td><td>HOLD</td></tr>
+    </table>
+    <!--script src="cola.js"></script-->
+    <script>
+        // to get console in safari, option+command+c
+        let asgt = 0
+        let asnr = 0
+        let asng = 0
+        let asnb = 0
+        let asny = 0
+        let asor = 0
+        let asog = 0
+        let asob = 0
+        let asoy = 0
+        let asot = 0
+        reset()
+        asgt += 1
+        topup()
+        show()
+        //let asran = Math.floor(Math.random() * 4);
+        //let asrgb = 'rgb(${asr}, ${asg}, ${asb})';
+        //console.log(asr, asg, asb, asrgb);
+
+        //document.getElementById("taba").style.color = "orange";
+        document.getElementById('taba').rows[0].cells[0].style.backgroundColor = "rgb(192,192,192)";
+        document.getElementById('taba').rows[0].cells[1].style.backgroundColor = "rgb(192,192,192)";
+        document.getElementById('taba').rows[1].cells[0].style.backgroundColor = "rgb(255,128,128)";
+        document.getElementById('taba').rows[1].cells[1].style.backgroundColor = "rgb(255,128,128)";
+        document.getElementById('taba').rows[1].cells[2].style.backgroundColor = "rgb(255,128,128)";
+        document.getElementById('taba').rows[1].cells[3].style.backgroundColor = "rgb(255,128,128)";
+        document.getElementById('taba').rows[2].style.backgroundColor = "rgb(128,255,128)";
+        document.getElementById('taba').rows[3].style.backgroundColor = "rgb(192,192,255)";
+        document.getElementById('taba').rows[4].style.backgroundColor = "rgb(255,255,128)";
+        function hit() {
+            //document.getElementById('taba').rows[0].cells[0].style.backgroundColor = 'orange';
+            console.log('hit');
+        }
+        function reset() {
+            asgt = -1
+            asnr = 0
+            asng = 0
+            asnb = 0
+            asny = 0
+            asor = 0
+            asog = 0
+            asob = 0
+            asoy = 0
+            asot = 0
+        }
+        function topup() {
+            asimax = 16 - asot
+            console.log('asot', asot, asor, asog, asob, asoy, asimax);
+            for (let i = 0; i < asimax; i++) {
+                console.log('topup', i, asot, asor, asog, asob, asoy);
+                let asran = Math.floor(Math.random() * 4);
+                if (asran == 0) {asor+=1}
+                if (asran == 1) {asog+=1}
+                if (asran == 2) {asob+=1}
+                if (asran == 3) {asoy+=1}
+                asot += 1
+                console.log('asran', i, asot, asor, asog, asob, asoy, asran);
+            }
+            //asot = 16
+        }
+        function show() {
+            aspr = asnr + asor
+            aspg = asng + asog
+            aspb = asnb + asob
+            aspy = asny + asoy
+            document.getElementById('taba').rows[0].cells[0].innerHTML = asgt;
+            document.getElementById('taba').rows[0].cells[1].innerHTML = 'RESET';
+            document.getElementById('taba').rows[1].cells[0].innerHTML = asnr;
+            document.getElementById('taba').rows[1].cells[1].innerHTML = '+' + asor;
+            document.getElementById('taba').rows[1].cells[2].innerHTML = '=' + aspr;
+            document.getElementById('taba').rows[2].cells[0].innerHTML = asng;
+            document.getElementById('taba').rows[2].cells[1].innerHTML = '+' + asog;
+            document.getElementById('taba').rows[2].cells[2].innerHTML = '=' + aspg;
+            document.getElementById('taba').rows[3].cells[0].innerHTML = asnb;
+            document.getElementById('taba').rows[3].cells[1].innerHTML = '+' + asob;
+            document.getElementById('taba').rows[3].cells[2].innerHTML = '=' + aspb;
+            document.getElementById('taba').rows[4].cells[0].innerHTML = asny;
+            document.getElementById('taba').rows[4].cells[1].innerHTML = '+' + asoy;
+            document.getElementById('taba').rows[4].cells[2].innerHTML = '=' + aspy;
+        }
+        document.querySelector('#taba')
+            .addEventListener('click', (ev) => {
+                const [x, y] = [
+                ev.target.cellIndex, 
+                ev.target.parentElement.rowIndex
+                ];
+                if (x === undefined || y === undefined) {
+                // Clicked on space between cells
+                return;
+                }
+                console.log('click', x, y);
+                if (y == 0 & x == 1) {reset()}
+                if (y == 1) {asnr += asor, asot -= asor, asor = 0}
+                if (y == 2) {asng += asog, asot -= asog, asog = 0}
+                if (y == 3) {asnb += asob, asot -= asob, asob = 0}
+                if (y == 4) {asny += asoy, asot -= asoy, asoy = 0}
+                if (asot < 16) {
+                    asgt += 1
+                    topup()
+                }
+                //if (Math.min(asnr, asng) )
+                show()
+
+                //console.log(x, y, asr, asg, asb);
+            });
+    </script>
+</body>
+</html>
