@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Venn4</title>
+        <link rel="stylesheet" href="https://pyscript.net/releases/2026.3.1/core.css" />
+        <script type="module" src="https://pyscript.net/releases/2026.3.1/core.js"></script>
+    </head>
+    <body>
+        <!--h1>Hello world!</h1>
+        <p>These are the Python interpreters in PyScript 2026.3.1:</p-->
+        <div id="dest">DEST</div>
+        <!--div id="output">OUT</div-->
+        <!--script type="py">
+            # Pyodide
+            from pyscript import display
+            import sys
+            display(sys.version)
+        </script-->
+        <!--script type="mpy">
+            # MicroPython
+            from pyscript import display
+            import sys
+            display(sys.version)
+        </script-->
+        <script type="mpy">
+            import os
+            from random import randint
+            #from pyscript import web, when
+            from pyscript import HTML, display
+
+            ascola = (randint(0, 255), randint(0, 255), randint(0, 255)) 
+            #ascola = (64, 255, 64)
+            asfila = '#%02x%02x%02x' % ascola
+            ascolb = (randint(0, 255), randint(0, 255), randint(0, 255)) 
+            #ascolb = (64, 64, 255)
+            asfilb = '#%02x%02x%02x' % ascolb
+            ascolc = (randint(0, 255), randint(0, 255), randint(0, 255)) 
+            #ascolc = (255, 64, 64)
+            asfilc = '#%02x%02x%02x' % ascolc
+            ascold = (randint(0, 255), randint(0, 255), randint(0, 255)) 
+            #ascold = (255, 255, 64)
+            asfild = '#%02x%02x%02x' % ascold
+
+            #display(ascola, ascolb, ascolc, ascold)
+
+            ascod = '<svg height="750" width="750" xmlns="http://www.w3.org/2000/svg">'
+            ascod += '<rect width="750" height="750" x="0" y="0" fill="white" />'
+
+            asrad = '240'
+            ascex = '250'
+            ascey = '250'
+            aslin = '<circle r="' + asrad + '" cx="' + ascex + '" cy="' + ascey + '" fill="' + asfila + '" opacity="0.25" />'
+            ascod += aslin
+
+            ascex = '500'
+            aslin = '<circle r="' + asrad + '" cx="' + ascex + '" cy="' + ascey + '" fill="' + asfilb + '" opacity="0.25" />'
+            ascod += aslin
+
+            ascex = '250'
+            ascey = '500'
+            aslin = '<circle r="' + asrad + '" cx="' + ascex + '" cy="' + ascey + '" fill="' + asfilc + '" opacity="0.25" />'
+            ascod += aslin
+
+            ascex = '500'
+            aslin = '<circle r="' + asrad + '" cx="' + ascex + '" cy="' + ascey + '" fill="' + asfild + '" opacity="0.25" />'
+            ascod += aslin
+
+            asrad = '45'
+            ascex = '45'
+            ascey = '45'
+            aslin = '<circle r="' + asrad + '" cx="' + ascex + '" cy="' + ascey + '" fill="' + asfila + '" opacity="1" />'
+            ascod += aslin
+
+            ascex = '705'
+            aslin = '<circle r="' + asrad + '" cx="' + ascex + '" cy="' + ascey + '" fill="' + asfilb + '" opacity="1" />'
+            ascod += aslin
+
+            ascex = '45'
+            ascey = '705'
+            aslin = '<circle r="' + asrad + '" cx="' + ascex + '" cy="' + ascey + '" fill="' + asfilc + '" opacity="1" />'
+            ascod += aslin
+
+            ascex = '705'
+            aslin = '<circle r="' + asrad + '" cx="' + ascex + '" cy="' + ascey + '" fill="' + asfild + '" opacity="1" />'
+            ascod += aslin
+            ascod += '</svg>'
+
+            ###display(ascod)
+
+            #asfip = 'ppp/venn/venn4.svg'
+            #with open(asfip, 'w') as asfis:
+            #    asfis.write(ascod)
+
+            #ascodx = """ + ascod + """
+            #ascodx = 'GET IN'
+
+            #display(ascod, target=None)
+
+            #display(HTML(ascod))
+            display(HTML(ascod), target="dest", append=False)
+            # https://docs.pyscript.net/2026.3.1/user-guide/display/
+
+            #dest_elem = js.document.getElementById("dest")
+            #dest_elem.innerHTML = ascodx
+            #dest_elem.innerHTML = 'HELP'
+
+            #output_div = web.page["output"]
+            #output_div.innerText = ascodx
+
+        </script>
+        <!--script type="py">
+            from pyscript import HTML, display
+            # Render actual HTML.
+            display(HTML("<h1>Hello, World!</h1>"))
+            display(HTML("<p>This is <strong>bold</strong> text.</p>"))
+        </script-->
+    </body>
+</html>
