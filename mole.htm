@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Venn4</title>
+        <link rel="stylesheet" href="https://pyscript.net/releases/2026.3.1/core.css" />
+        <script type="module" src="https://pyscript.net/releases/2026.3.1/core.js"></script>
+    </head>
+    <body>
+        <!--h1>Hello world!</h1>
+        <p>These are the Python interpreters in PyScript 2026.3.1:</p-->
+        <div id="dest">DEST</div>
+        <!--div id="output">OUT</div-->
+        <!--script type="py">
+            # Pyodide
+            from pyscript import display
+            import sys
+            display(sys.version)
+        </script-->
+        <!--script type="mpy">
+            # MicroPython
+            from pyscript import display
+            import sys
+            display(sys.version)
+        </script-->
+        <script type="mpy">
+            import os
+            from random import randint
+            #from pyscript import web, when
+            from pyscript import HTML, display
+
+            ascol = (64, 255, 64)
+            if randint(0, 1) == 1:
+                ascol = (255, 64, 64)
+            asfix = '#%02x%02x%02x' % ascol
+
+            #display(ascol)
+
+            ascod = '<svg height="3000" width="3000" xmlns="http://www.w3.org/2000/svg">'
+            ascod += '<rect width="3000" height="3000" x="0" y="0" fill="' + asfix + '" />'
+            #ascod += '<rect width="3000" height="3000" x="0" y="0" fill="green" />'
+            #ascod += aslin
+            ascod += '</svg>'
+
+            ###display(ascod)
+
+            #asfip = 'ppp/venn/venn4.svg'
+            #with open(asfip, 'w') as asfis:
+            #    asfis.write(ascod)
+
+            #ascodx = """ + ascod + """
+            #ascodx = 'GET IN'
+
+            #display(ascod, target=None)
+
+            #display(HTML(ascod))
+            display(HTML(ascod), target="dest", append=False)
+            # https://docs.pyscript.net/2026.3.1/user-guide/display/
+
+            #dest_elem = js.document.getElementById("dest")
+            #dest_elem.innerHTML = ascodx
+            #dest_elem.innerHTML = 'HELP'
+
+            #output_div = web.page["output"]
+            #output_div.innerText = ascodx
+
+        </script>
+        <!--script type="py">
+            from pyscript import HTML, display
+            # Render actual HTML.
+            display(HTML("<h1>Hello, World!</h1>"))
+            display(HTML("<p>This is <strong>bold</strong> text.</p>"))
+        </script-->
+    </body>
+</html>
