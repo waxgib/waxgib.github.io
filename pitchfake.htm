@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Pitchfake</title>
+        <link rel="stylesheet" href="https://pyscript.net/releases/2026.3.1/core.css" />
+        <script type="module" src="https://pyscript.net/releases/2026.3.1/core.js"></script>
+    </head>
+    <body>
+        <div id="dest">Loading...</div>
+        <script type="py" config='{"packages": ["Pillow"]
+        , "files": {"https://waxgib.github.io/TiemposHeadline-Medium.otf": "./Medium.otf"
+        , "https://waxgib.github.io/TiemposHeadline-Regular.otf": "./Regular.otf"
+        , "https://waxgib.github.io/TiemposHeadline-Light.otf": "./Light.otf"
+        , "https://waxgib.github.io/TiemposHeadline-BoldItalic.otf": "./BoldItalic.otf"} }'>
+            from pyscript import HTML, display
+            from pyscript.fetch import fetch
+            import base64
+            from js import document
+            from PIL import Image, ImageDraw, ImageFont
+            import io
+
+            asurl = 'https://upload.wikimedia.org/wikipedia/en/b/b5/Young_americans.jpg'
+            #asurl = 'https://upload.wikimedia.org/wikipedia/en/9/93/Low_%28album%29.jpg'
+
+            asweb = 'Pitchfork'
+            #asweb = 'Pitchfake'
+            #asweb = 'Pitchfraud'
+            #asweb = 'Pitching'
+            astyp = 'ALBUMS'
+            asla = ['https://upload.wikimedia.org/wikipedia/en/9/93/Low_(album).jpg', "Low", "David Bowie", "1977", "9.9"]
+            asla = ['https://upload.wikimedia.org/wikipedia/commons/d/d1/Pet_Sounds_%28color_corrected%29.jpg', "Pet Sounds", "The Beach Boys", "1966", "1.3"]
+
+            asurl = asla[0]
+            astit = asla[1]
+            asart = asla[2]
+            asyea = asla[3]
+            aspts = asla[4]
+
+            asres = await fetch(asurl)
+            print(asres.status, asres.ok, asres.statusText)
+            asdat = await asres.bytes()
+            print(type(asdat))
+            asby = asdat.to_bytes()
+            print(type(asby))
+
+            display(asby, target="dest", append=False)
+
+            #data = base64.b64encode(asby).decode("utf-8")
+            #asimgsrc = f"data:image/jpg;base64,{data}"
+            #print(type(data))
+            #print(type(asimgsrc))
+            #display(asimgsrc, target="dest", append=False)
+            #document.querySelector("img").setAttribute("src", asimgsrc)
+
+            asimap = Image.open(io.BytesIO(asby))
+            #asdrap = ImageDraw.Draw(asimap)
+
+            asdxj = 400
+            asdyj = 400
+            asimi = asimap.resize((asdxj, asdyj), Image.Resampling.LANCZOS)
+            asdxi, asdyi = asimi.size
+
+            ascolwhi = (248, 248, 248)
+            ascolbla = (0, 0, 0)
+            ascolgry = (192, 192, 192)
+            asdxg = 800
+            asdyg = 1200
+            asimg = Image.new('RGB', (asdxg, asdyg), ascolwhi)
+            asdrg = ImageDraw.Draw(asimg)
+
+            asfo0 = ImageFont.truetype("./Regular.otf", 48)
+            asfo1 = ImageFont.truetype("./Light.otf", 20)
+            asfo2 = ImageFont.truetype("./BoldItalic.otf", 52)
+            asfo3 = ImageFont.truetype("./Light.otf", 44)
+            asfo4 = ImageFont.truetype("./Light.otf", 20)
+            asfo5 = ImageFont.truetype("./Medium.otf", 96)
+
+            asdrg.rectangle((0, 0, asdxg, 100), fill = ascolbla)
+            asdrg.rectangle((40, 40, 70, 41), fill = ascolgry)
+            asdrg.rectangle((40, 50, 70, 51), fill = ascolgry)
+            asdrg.rectangle((40, 60, 70, 61), fill = ascolgry)
+
+            astex = asweb
+            asdxt = asdrg.textlength(astex, asfo0)
+            asx = 105
+            asy = 30
+            asdrg.text((asx, asy), astex, ascolwhi, stroke_width=1.5, font = asfo0)
+
+            astex = astyp
+            asdxt = asdrg.textlength(astex, asfo1)
+            asx = int(asdxg/2 - asdxt/2)
+            asy = 200
+            asdrg.text((asx, asy), astex, ascolbla, font = asfo1)
+
+            astex = astit
+            asdxt = asdrg.textlength(astex, asfo2)
+            asx = int(asdxg/2 - asdxt/2)
+            asy += 60
+            asdrg.text((asx, asy), astex, ascolbla, font = asfo2)
+
+            astex = asart
+            asdxt = asdrg.textlength(astex, asfo3)
+            asx = int(asdxg/2 - asdxt/2)
+            asy += 100
+            asdrg.text((asx, asy), astex, ascolbla, font = asfo3)
+            asdrg.line((asx, asy+38, asx+asdxt, asy+38), fill=ascolbla)
+
+            astex = asyea
+            asdxt = asdrg.textlength(astex, asfo4)
+            asx = int(asdxg/2 - asdxt/2)
+            asy += 100
+            asdrg.text((asx, asy), astex, ascolbla, font = asfo4)
+
+            asx = 60
+            asy += 100
+            asimg.paste(asimi, (asx, asy))
+            print(asx, asy, asimi.size, asimg.size)
+
+            asxf = 510
+            asxt = 750
+            asyf = asy + 80
+            asyt = asyf + 240
+            asdrg.ellipse((asxf, asyf, asxt, asyt), fill=ascolbla)
+            asinn = 16
+            asxf = asxf + asinn
+            asxt = asxt - asinn
+            asyf = asyf + asinn
+            asyt = asyt - asinn
+            asdrg.ellipse((asxf, asyf, asxt, asyt), fill=ascolwhi)
+
+            astex = aspts
+            asdxt = asdrg.textlength(astex, asfo5)
+            asx = int(630 - asdxt/2)
+            asy += 155
+            asdrg.text((asx, asy), astex, ascolbla, font = asfo5)
+
+            display(asimg, target="dest", append=False)
+
+        </script>
+    </body>
+</html>
