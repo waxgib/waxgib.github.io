@@ -9,11 +9,17 @@
     </head>
     <body>
         Album:<input type="text" id="tit" placeholder="Album name?" />
+        <p/>
         By:<input type="text" id="art" placeholder="Who is it by?" />
+        <p/>
         Year:<input type="text" id="yea" placeholder="1975?" />
+        <p/>
         Score:<input type="text" id="pts" placeholder="Point score?" />
-        Image url:<input type="text" id="url" placeholder="image url eg wikimedia" />
+        <p/>
+        Image url:<input type="text" id="url" size="90" placeholder="image url eg wikimedia" />
+        <p/>
         Site:<input type="text" id="web" placeholder="Web site?" />
+        <p/>
         <button id="butmake">Make</button>
         <div id="dest">Loading...</div>
         <script type="py" config='{"packages": ["Pillow"]
@@ -28,7 +34,6 @@
             from js import document
             from PIL import Image, ImageDraw, ImageFont
             import io
-
 
             asurl = 'https://upload.wikimedia.org/wikipedia/en/b/b5/Young_americans.jpg'
             #asurl = 'https://upload.wikimedia.org/wikipedia/en/9/93/Low_%28album%29.jpg'
@@ -58,6 +63,8 @@
             qwpts.value = aspts
             qwweb = web.page["web"]
             qwweb.value = asweb
+            qwurl = web.page["url"]
+            qwurl.value = asurl
             print('qwtit type', type(qwtit))
 
             asres = await fetch(asurl)
@@ -67,7 +74,7 @@
             asby = asdat.to_bytes()
             print(type(asby))
 
-            def defmake():
+            async def defmake():
                 qwurl = web.page["url"]
                 asurl = qwurl.value.strip()
                 qwtit = web.page["tit"]
@@ -80,7 +87,14 @@
                 aspts = qwpts.value.strip()
                 qwweb = web.page["web"]
                 asweb = qwweb.value.strip()
-                print('defmake', asweb, astit, asart, asyea, aspts)
+                print('defmake', asweb, astit, asart, asyea, aspts, asurl)
+
+                asres = await fetch(asurl)
+                print(asres.status, asres.ok, asres.statusText)
+                asdat = await asres.bytes()
+                print(type(asdat))
+                asby = asdat.to_bytes()
+                print(type(asby))
 
                 display(asby, target="dest", append=False)
 
@@ -176,16 +190,16 @@
                 display(asimg, target="dest", append=False)
 
             @when("click", "#butmake")
-            def defbutmake(event):
+            async def defbutmake(event):
                 #qwtit = web.page["tit"]
                 #astit = qwtit.value.strip()
                 #qwart = web.page["art"]
                 #asart = qwart.value.strip()
                 print('defbutmake butmake', astit, asart)
-                defmake()
+                await defmake()
 
             print('main', asweb, astit, asart, asyea, aspts)
-            defmake()
+            await defmake()
 
         </script>
     </body>
