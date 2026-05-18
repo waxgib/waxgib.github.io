@@ -8,6 +8,13 @@
         <script type="module" src="https://pyscript.net/releases/2026.3.1/core.js"></script>
     </head>
     <body>
+        Album:<input type="text" id="tit" placeholder="Album name?" />
+        By:<input type="text" id="art" placeholder="Who is it by?" />
+        Year:<input type="text" id="yea" placeholder="1975?" />
+        Score:<input type="text" id="pts" placeholder="Point score?" />
+        Image url:<input type="text" id="url" placeholder="image url eg wikimedia" />
+        Site:<input type="text" id="web" placeholder="Web site?" />
+        <button id="butmake">Make</button>
         <div id="dest">Loading...</div>
         <script type="py" config='{"packages": ["Pillow"]
         , "files": {"https://waxgib.github.io/TiemposHeadline-Medium.otf": "./Medium.otf"
@@ -16,10 +23,12 @@
         , "https://waxgib.github.io/TiemposHeadline-BoldItalic.otf": "./BoldItalic.otf"} }'>
             from pyscript import HTML, display
             from pyscript.fetch import fetch
+            from pyscript import when, web
             import base64
             from js import document
             from PIL import Image, ImageDraw, ImageFont
             import io
+
 
             asurl = 'https://upload.wikimedia.org/wikipedia/en/b/b5/Young_americans.jpg'
             #asurl = 'https://upload.wikimedia.org/wikipedia/en/9/93/Low_%28album%29.jpg'
@@ -37,6 +46,19 @@
             asart = asla[2]
             asyea = asla[3]
             aspts = asla[4]
+            print('intro', asweb, astit, asart, asyea, aspts)
+
+            qwtit = web.page["tit"]
+            qwtit.value = astit
+            qwart = web.page["art"]
+            qwart.value = asart
+            qwyea = web.page["yea"]
+            qwyea.value = asyea
+            qwpts = web.page["pts"]
+            qwpts.value = aspts
+            qwweb = web.page["web"]
+            qwweb.value = asweb
+            print('qwtit type', type(qwtit))
 
             asres = await fetch(asurl)
             print(asres.status, asres.ok, asres.statusText)
@@ -45,98 +67,125 @@
             asby = asdat.to_bytes()
             print(type(asby))
 
-            display(asby, target="dest", append=False)
+            def defmake():
+                qwurl = web.page["url"]
+                asurl = qwurl.value.strip()
+                qwtit = web.page["tit"]
+                astit = qwtit.value.strip()
+                qwart = web.page["art"]
+                asart = qwart.value.strip()
+                qwyea = web.page["yea"]
+                asyea = qwyea.value.strip()
+                qwpts = web.page["pts"]
+                aspts = qwpts.value.strip()
+                qwweb = web.page["web"]
+                asweb = qwweb.value.strip()
+                print('defmake', asweb, astit, asart, asyea, aspts)
 
-            #data = base64.b64encode(asby).decode("utf-8")
-            #asimgsrc = f"data:image/jpg;base64,{data}"
-            #print(type(data))
-            #print(type(asimgsrc))
-            #display(asimgsrc, target="dest", append=False)
-            #document.querySelector("img").setAttribute("src", asimgsrc)
+                display(asby, target="dest", append=False)
 
-            asimap = Image.open(io.BytesIO(asby))
-            #asdrap = ImageDraw.Draw(asimap)
+                #data = base64.b64encode(asby).decode("utf-8")
+                #asimgsrc = f"data:image/jpg;base64,{data}"
+                #print(type(data))
+                #print(type(asimgsrc))
+                #display(asimgsrc, target="dest", append=False)
+                #document.querySelector("img").setAttribute("src", asimgsrc)
 
-            asdxj = 400
-            asdyj = 400
-            asimi = asimap.resize((asdxj, asdyj), Image.Resampling.LANCZOS)
-            asdxi, asdyi = asimi.size
+                asimap = Image.open(io.BytesIO(asby))
+                #asdrap = ImageDraw.Draw(asimap)
 
-            ascolwhi = (248, 248, 248)
-            ascolbla = (0, 0, 0)
-            ascolgry = (192, 192, 192)
-            asdxg = 800
-            asdyg = 1200
-            asimg = Image.new('RGB', (asdxg, asdyg), ascolwhi)
-            asdrg = ImageDraw.Draw(asimg)
+                asdxj = 400
+                asdyj = 400
+                asimi = asimap.resize((asdxj, asdyj), Image.Resampling.LANCZOS)
+                asdxi, asdyi = asimi.size
 
-            asfo0 = ImageFont.truetype("./Regular.otf", 48)
-            asfo1 = ImageFont.truetype("./Light.otf", 20)
-            asfo2 = ImageFont.truetype("./BoldItalic.otf", 52)
-            asfo3 = ImageFont.truetype("./Light.otf", 44)
-            asfo4 = ImageFont.truetype("./Light.otf", 20)
-            asfo5 = ImageFont.truetype("./Medium.otf", 96)
+                ascolwhi = (248, 248, 248)
+                ascolbla = (0, 0, 0)
+                ascolgry = (192, 192, 192)
+                asdxg = 800
+                asdyg = 1200
+                asimg = Image.new('RGB', (asdxg, asdyg), ascolwhi)
+                asdrg = ImageDraw.Draw(asimg)
 
-            asdrg.rectangle((0, 0, asdxg, 100), fill = ascolbla)
-            asdrg.rectangle((40, 40, 70, 41), fill = ascolgry)
-            asdrg.rectangle((40, 50, 70, 51), fill = ascolgry)
-            asdrg.rectangle((40, 60, 70, 61), fill = ascolgry)
+                asfo0 = ImageFont.truetype("./Regular.otf", 48)
+                asfo1 = ImageFont.truetype("./Light.otf", 20)
+                asfo2 = ImageFont.truetype("./BoldItalic.otf", 52)
+                asfo3 = ImageFont.truetype("./Light.otf", 44)
+                asfo4 = ImageFont.truetype("./Light.otf", 20)
+                asfo5 = ImageFont.truetype("./Medium.otf", 96)
 
-            astex = asweb
-            asdxt = asdrg.textlength(astex, asfo0)
-            asx = 105
-            asy = 30
-            asdrg.text((asx, asy), astex, ascolwhi, stroke_width=1.5, font = asfo0)
+                asdrg.rectangle((0, 0, asdxg, 100), fill = ascolbla)
+                asdrg.rectangle((40, 40, 70, 41), fill = ascolgry)
+                asdrg.rectangle((40, 50, 70, 51), fill = ascolgry)
+                asdrg.rectangle((40, 60, 70, 61), fill = ascolgry)
 
-            astex = astyp
-            asdxt = asdrg.textlength(astex, asfo1)
-            asx = int(asdxg/2 - asdxt/2)
-            asy = 200
-            asdrg.text((asx, asy), astex, ascolbla, font = asfo1)
+                astex = asweb
+                asdxt = asdrg.textlength(astex, asfo0)
+                asx = 105
+                asy = 30
+                asdrg.text((asx, asy), astex, ascolwhi, stroke_width=1.5, font = asfo0)
 
-            astex = astit
-            asdxt = asdrg.textlength(astex, asfo2)
-            asx = int(asdxg/2 - asdxt/2)
-            asy += 60
-            asdrg.text((asx, asy), astex, ascolbla, font = asfo2)
+                astex = astyp
+                asdxt = asdrg.textlength(astex, asfo1)
+                asx = int(asdxg/2 - asdxt/2)
+                asy = 200
+                asdrg.text((asx, asy), astex, ascolbla, font = asfo1)
 
-            astex = asart
-            asdxt = asdrg.textlength(astex, asfo3)
-            asx = int(asdxg/2 - asdxt/2)
-            asy += 100
-            asdrg.text((asx, asy), astex, ascolbla, font = asfo3)
-            asdrg.line((asx, asy+38, asx+asdxt, asy+38), fill=ascolbla)
+                astex = astit
+                asdxt = asdrg.textlength(astex, asfo2)
+                asx = int(asdxg/2 - asdxt/2)
+                asy += 60
+                asdrg.text((asx, asy), astex, ascolbla, font = asfo2)
 
-            astex = asyea
-            asdxt = asdrg.textlength(astex, asfo4)
-            asx = int(asdxg/2 - asdxt/2)
-            asy += 100
-            asdrg.text((asx, asy), astex, ascolbla, font = asfo4)
+                astex = asart
+                asdxt = asdrg.textlength(astex, asfo3)
+                asx = int(asdxg/2 - asdxt/2)
+                asy += 100
+                asdrg.text((asx, asy), astex, ascolbla, font = asfo3)
+                asdrg.line((asx, asy+38, asx+asdxt, asy+38), fill=ascolbla)
 
-            asx = 60
-            asy += 100
-            asimg.paste(asimi, (asx, asy))
-            print(asx, asy, asimi.size, asimg.size)
+                astex = asyea
+                asdxt = asdrg.textlength(astex, asfo4)
+                asx = int(asdxg/2 - asdxt/2)
+                asy += 100
+                asdrg.text((asx, asy), astex, ascolbla, font = asfo4)
 
-            asxf = 510
-            asxt = 750
-            asyf = asy + 80
-            asyt = asyf + 240
-            asdrg.ellipse((asxf, asyf, asxt, asyt), fill=ascolbla)
-            asinn = 16
-            asxf = asxf + asinn
-            asxt = asxt - asinn
-            asyf = asyf + asinn
-            asyt = asyt - asinn
-            asdrg.ellipse((asxf, asyf, asxt, asyt), fill=ascolwhi)
+                asx = 60
+                asy += 100
+                asimg.paste(asimi, (asx, asy))
+                print(asx, asy, asimi.size, asimg.size)
 
-            astex = aspts
-            asdxt = asdrg.textlength(astex, asfo5)
-            asx = int(630 - asdxt/2)
-            asy += 155
-            asdrg.text((asx, asy), astex, ascolbla, font = asfo5)
+                asxf = 510
+                asxt = 750
+                asyf = asy + 80
+                asyt = asyf + 240
+                asdrg.ellipse((asxf, asyf, asxt, asyt), fill=ascolbla)
+                asinn = 16
+                asxf = asxf + asinn
+                asxt = asxt - asinn
+                asyf = asyf + asinn
+                asyt = asyt - asinn
+                asdrg.ellipse((asxf, asyf, asxt, asyt), fill=ascolwhi)
 
-            display(asimg, target="dest", append=False)
+                astex = aspts
+                asdxt = asdrg.textlength(astex, asfo5)
+                asx = int(630 - asdxt/2)
+                asy += 155
+                asdrg.text((asx, asy), astex, ascolbla, font = asfo5)
+
+                display(asimg, target="dest", append=False)
+
+            @when("click", "#butmake")
+            def defbutmake(event):
+                #qwtit = web.page["tit"]
+                #astit = qwtit.value.strip()
+                #qwart = web.page["art"]
+                #asart = qwart.value.strip()
+                print('defbutmake butmake', astit, asart)
+                defmake()
+
+            print('main', asweb, astit, asart, asyea, aspts)
+            defmake()
 
         </script>
     </body>
