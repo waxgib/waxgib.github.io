@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>GETIM</title>
+        <link rel="stylesheet" href="https://pyscript.net/releases/2026.3.1/core.css" />
+        <script type="module" src="https://pyscript.net/releases/2026.3.1/core.js"></script>
+    </head>
+    <body>
+        <div id="dest">DEST</div>
+        <div><img id="img" src="src"></div>
+        <script type="py" config='{"packages": ["astral", "Pillow"], "files": {"https://waxgib.github.io/COOPBL.TTF": "./COOPBL.TTF"}}'>
+            #import json
+            #from pyodide.ffi import to_js
+            #from js import fetch, Object
+            from pyscript import HTML, display
+            from pyscript.fetch import fetch
+            import base64
+            from js import document
+            from PIL import Image, ImageDraw, ImageFont
+            import io
+
+            #asurl = "https://api.example.com/data"
+            asurl = 'https://dummy.restapiexample.com/api/v1/employee/1'
+            asurl = 'https://api.slingacademy.com/public/sample-photos/1.jpeg'
+            asurl = 'https://upload.wikimedia.org/wikipedia/en/b/b5/Young_americans.jpg'
+            asurl = 'https://upload.wikimedia.org/wikipedia/en/9/93/Low_%28album%29.jpg'
+
+            #asdata = await fetch(asurl).json()
+            ##asdata = await fetch(asurl).text()
+            #print(type(asdata))
+            #print(asdata)
+            #print(asdata["data"])
+
+            asres = await fetch(asurl)
+            print(asres.status, asres.ok, asres.statusText)
+            #asdat = await asres.json()
+            asdat = await asres.bytes()
+            print(type(asdat))
+            #print(asdat)
+
+            asby = asdat.to_bytes()
+            aspy = asdat.to_py()
+            print(type(asby))
+            print(type(aspy))
+
+            display(asby, target="dest", append=False)
+
+            data = base64.b64encode(asby).decode("utf-8")
+            asimgsrc = f"data:image/jpg;base64,{data}"
+            print(type(data))
+            print(type(asimgsrc))
+            display(asimgsrc, target="dest", append=False)
+            document.querySelector("img").setAttribute("src", asimgsrc)
+
+            asimap = Image.open(io.BytesIO(asby))
+            asdrap = ImageDraw.Draw(asimap)
+            aswhit = (224, 224, 0)
+            asdrap.rectangle((0, 0, 500, 100), fill=aswhit)
+            display(asimap, target="dest", append=False)
+
+            #asfilename = 'test.jpg'
+            #with open(asfilename, mode="wb") as asfile:
+            #    asfile.write(asby)
+            #print(asfilename)
+            #data = base64.b64encode(open(asfilename, "rb").read()).decode("utf-8")
+            #asimaga = f"data:image/png;base64,{data}"
+            #print(type(data))
+            #print(type(asimaga))
+            #display(asimaga, target="dest", append=True)
+
+            # only for json 
+            #print(asdat["status"])
+            #print(asdat["data"])
+
+            #asurl = 'https://dummy.restapiexample.com/api/v1/employee/719'
+            #asresp = await fetch(asurl)
+            #print('resp_sts', asresp.status, asresp.ok)
+
+            #asimpo = await asresp.json 
+            #print(asimpo)
+
+            #resp = await fetch(asurl, to_js({
+            #    "headers": { "User-Agent': 'fabpoplabBot/0.0 (fabpoplab@gmail.com)" }
+            #}, dict_converter=Object.fromEntries))
+
+        </script>
+    </body>
+</html>
