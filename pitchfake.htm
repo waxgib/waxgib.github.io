@@ -20,6 +20,8 @@
         <p/>
         Site:<input type="text" id="web" placeholder="Web site?" />
         <p/>
+        Site:<input type="text" id="typ" placeholder="Albums/Singles?" />
+        <p/>
         <button id="butmake">Make</button>
         <div id="dest">Loading...</div>
         <script type="py" config='{"packages": ["Pillow"]
@@ -34,17 +36,36 @@
             from js import document
             from PIL import Image, ImageDraw, ImageFont
             import io
+            from random import randint
 
-            asurl = 'https://upload.wikimedia.org/wikipedia/en/b/b5/Young_americans.jpg'
-            #asurl = 'https://upload.wikimedia.org/wikipedia/en/9/93/Low_%28album%29.jpg'
+            aslweb = ['Pitchforks', 'Pitchfake', 'Pitchfraud', 'Pitching']
+            print(len(aslweb))
+            asra = randint(0, len(aslweb)-1)
+            asweb = aslweb[asra]
 
-            asweb = 'Pitchfork'
-            #asweb = 'Pitchfake'
-            #asweb = 'Pitchfraud'
-            #asweb = 'Pitching'
             astyp = 'ALBUMS'
-            asla = ['https://upload.wikimedia.org/wikipedia/en/9/93/Low_(album).jpg', "Low", "David Bowie", "1977", "9.9"]
-            asla = ['https://upload.wikimedia.org/wikipedia/commons/d/d1/Pet_Sounds_%28color_corrected%29.jpg', "Pet Sounds", "The Beach Boys", "1966", "1.3"]
+
+            aslla = [['https://upload.wikimedia.org/wikipedia/en/9/93/Low_(album).jpg'
+            , "Low", "David Bowie", "1977", "3.1"]
+            , ['https://upload.wikimedia.org/wikipedia/commons/d/d1/Pet_Sounds_%28color_corrected%29.jpg'
+            , "Pet Sounds", "The Beach Boys", "1966", "1.3"]
+            , ['https://upload.wikimedia.org/wikipedia/en/7/70/The_Ghost_in_Daylight.png'
+            , "The Ghost In Daylight", "Gravenhurst", "2012", "9.7"]
+            , ['https://upload.wikimedia.org/wikipedia/en/d/d1/Sumday.jpg'
+            , "Sumday", "Grandaddy", "2003", "9.9"]
+            , ['https://upload.wikimedia.org/wikipedia/en/d/d1/Sumday.jpg'
+            , "Sumday", "Grandaddy", "2003", "9.9"]
+            , ['https://upload.wikimedia.org/wikipedia/en/3/3b/Green_Lanes_album_cover.jpg'
+            , "Green Lanes", "Ultimate Painting", "2015", "9.1"]
+            ]
+            asra = randint(0, len(aslla)-1)
+            asla = aslla[asra]
+            #if asra == 0:
+            #    asla = ['https://upload.wikimedia.org/wikipedia/en/9/93/Low_(album).jpg', "Low", "David Bowie", "1977", "3.1"]
+            #elif asra == 1:
+            #    asla = ['https://upload.wikimedia.org/wikipedia/commons/d/d1/Pet_Sounds_%28color_corrected%29.jpg', "Pet Sounds", "The Beach Boys", "1966", "1.3"]
+            #else:
+            #    asla = ['https://upload.wikimedia.org/wikipedia/en/7/70/The_Ghost_in_Daylight.png', "The Ghost In Daylight", "Gravenhurst", "2012", "9.9"]
 
             asurl = asla[0]
             astit = asla[1]
@@ -63,16 +84,18 @@
             qwpts.value = aspts
             qwweb = web.page["web"]
             qwweb.value = asweb
+            qwtyp = web.page["typ"]
+            qwtyp.value = astyp
             qwurl = web.page["url"]
             qwurl.value = asurl
             print('qwtit type', type(qwtit))
 
-            asres = await fetch(asurl)
-            print(asres.status, asres.ok, asres.statusText)
-            asdat = await asres.bytes()
-            print(type(asdat))
-            asby = asdat.to_bytes()
-            print(type(asby))
+            #asres = await fetch(asurl)
+            #print(asres.status, asres.ok, asres.statusText)
+            #asdat = await asres.bytes()
+            #print(type(asdat))
+            #asby = asdat.to_bytes()
+            #print(type(asby))
 
             async def defmake():
                 qwurl = web.page["url"]
@@ -87,6 +110,8 @@
                 aspts = qwpts.value.strip()
                 qwweb = web.page["web"]
                 asweb = qwweb.value.strip()
+                qwtyp = web.page["typ"]
+                astyp = qwtyp.value.strip()
                 print('defmake', asweb, astit, asart, asyea, aspts, asurl)
 
                 asres = await fetch(asurl)
@@ -191,10 +216,6 @@
 
             @when("click", "#butmake")
             async def defbutmake(event):
-                #qwtit = web.page["tit"]
-                #astit = qwtit.value.strip()
-                #qwart = web.page["art"]
-                #asart = qwart.value.strip()
                 print('defbutmake butmake', astit, asart)
                 await defmake()
 
