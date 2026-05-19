@@ -20,7 +20,7 @@
         <p/>
         Site:<input type="text" id="web" placeholder="Web site?" />
         <p/>
-        Site:<input type="text" id="typ" placeholder="Albums/Singles?" />
+        Type:<input type="text" id="typ" placeholder="Albums/Singles?" />
         <p/>
         <button id="butmake">Make</button>
         <div id="dest">Loading...</div>
@@ -38,7 +38,7 @@
             import io
             from random import randint
 
-            aslweb = ['Pitchforks', 'Pitchfake', 'Pitchfraud', 'Pitching']
+            aslweb = ['Pitchforks', 'Pitchfake', 'Pitchfraud', 'Pitchforked', 'Pitchfalse', 'Pitchfault']
             print(len(aslweb))
             asra = randint(0, len(aslweb)-1)
             asweb = aslweb[asra]
@@ -115,23 +115,33 @@
                 print('defmake', asweb, astit, asart, asyea, aspts, asurl)
 
                 asres = await fetch(asurl)
-                print(asres.status, asres.ok, asres.statusText)
-                asdat = await asres.bytes()
-                print(type(asdat))
-                asby = asdat.to_bytes()
-                print(type(asby))
+                print(asres.status, asres.ok)
+                if asres.ok:
+                    asdat = await asres.bytes()
+                    print(type(asdat))
+                    asby = asdat.to_bytes()
+                    print(type(asby))
 
-                display(asby, target="dest", append=False)
+                    #display(asby, target="dest", append=False)
 
-                #data = base64.b64encode(asby).decode("utf-8")
-                #asimgsrc = f"data:image/jpg;base64,{data}"
-                #print(type(data))
-                #print(type(asimgsrc))
-                #display(asimgsrc, target="dest", append=False)
-                #document.querySelector("img").setAttribute("src", asimgsrc)
+                    #data = base64.b64encode(asby).decode("utf-8")
+                    #asimgsrc = f"data:image/jpg;base64,{data}"
+                    #print(type(data))
+                    #print(type(asimgsrc))
+                    #display(asimgsrc, target="dest", append=False)
+                    #document.querySelector("img").setAttribute("src", asimgsrc)
 
-                asimap = Image.open(io.BytesIO(asby))
-                #asdrap = ImageDraw.Draw(asimap)
+                    asimap = Image.open(io.BytesIO(asby))
+                    #asdrap = ImageDraw.Draw(asimap)
+                else:
+                    asimap = Image.new('RGB', (400, 400), (0, 0, 0))
+                    asdrap = ImageDraw.Draw(asimap)
+                    asfon = ImageFont.truetype("./Light.otf", 32)
+                    astex = 'Image not found'
+                    asdxt = asdrap.textlength(astex, asfon)
+                    asx = int(200 - asdxt/2)
+                    asy = 180
+                    asdrap.text((asx, asy), astex, (248, 248, 248), font = asfon)
 
                 asdxj = 400
                 asdyj = 400
