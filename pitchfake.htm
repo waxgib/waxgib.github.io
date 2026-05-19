@@ -212,7 +212,11 @@
                 asy += 155
                 asdrg.text((asx, asy), astex, ascolbla, font = asfo5)
 
-                display(asimg, target="dest", append=False)
+                asdxo = 600
+                asdyo = 900
+                asimo = asimg.resize((asdxo, asdyo), Image.Resampling.LANCZOS)
+
+                display(asimo, target="dest", append=False)
 
             @when("click", "#butmake")
             async def defbutmake(event):
